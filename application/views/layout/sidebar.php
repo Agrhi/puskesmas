@@ -26,6 +26,17 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link <?= ($title === "Klasifikasi") ? 'active' : '' ?>" href="<?= base_url('klasifikasi') ?>">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-watch-time text-success text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Klasifikasi</span>
+        </a>
+      </li>
+      <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Data Master</h6>
+      </li>
+      <li class="nav-item">
         <a class="nav-link <?= ($title === "Data Pasien") ? 'active' : '' ?>" href="<?= base_url('pasien') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-single-02 text-success text-sm opacity-10"></i>
@@ -33,6 +44,14 @@
           <span class="nav-link-text ms-1">Data Pasien</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link <?= ($title === "Rekamedis") ? 'active' : '' ?>" href="<?= base_url('rekamedis') ?>">
+          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="ni ni-book-bookmark text-success text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Rekamedis</span>
+        </a>
+      </li> 
       <li class="nav-item">
         <a class="nav-link <?= ($title === "Data Diagnosa") ? 'active' : '' ?>" href="<?= base_url('diagnosa') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -50,45 +69,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?= ($title === "Rekamedis") ? 'active' : '' ?>" href="<?= base_url('rekamedis') ?>">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-book-bookmark text-success text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Rekamedis</span>
-        </a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link <?= ($title === "Data Latih") ? 'active' : '' ?>" href="<?= base_url('datalatih') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Data Latih</span>
         </a>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link <?= ($title === "Seleksi") ? 'active' : '' ?>" href="<?= base_url('seleksi') ?>">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-chart-pie-35 text-success text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Seleksi</span>
-        </a>
-      </li>       -->
-      <li class="nav-item">
-        <a class="nav-link <?= ($title === "Klasifikasi") ? 'active' : '' ?>" href="<?= base_url('klasifikasi') ?>">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-watch-time text-success text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Klasifikasi</span>
-        </a>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link <?= ($title === "Kontak Person") ? 'active' : '' ?>" href="<?= base_url('contact') ?>">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-collection text-success text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Kontak Person</span>
-        </a>
-      </li> -->
+      </li>   
       <?php if ($this->session->userdata('level') == 1) { ?>
         <li class="nav-item">
           <a class="nav-link <?= ($title === "Management User") ? 'active' : '' ?>" href="<?= base_url('management_user') ?>">
@@ -101,10 +88,10 @@
       <?php } ?>
       <li class="nav-item">
         <div class="nav-link">
-        <h6>Light/Dark</h6>
-        <div class="col form-check form-switch ps-0 ms-auto my-auto">
-          <input class="form-check-input ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-        </div>
+          <h6>Light/Dark</h6>
+          <div class="col form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+          </div>
         </div>
       </li>
     </ul>

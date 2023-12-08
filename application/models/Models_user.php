@@ -32,16 +32,16 @@ class Models_user extends CI_Model
 	}
 
 	// Insert User
-	// public function insert($data){
-	// 	$this->db->set('iduser', 'UUID()', FALSE);
-	// 	$this->db->insert('user', $data);
-	// }
+	public function insert($data){
+		$this->db->set('iduser', 'UUID()', FALSE);
+		$this->db->insert('user', $data);
+	}
 
-	// public function update($id, $data)
-	// {
-	// 	$this->db->where('iduser', $id);
-	// 	$this->db->update('user', $data);
-	// }
+	public function update($id, $data)
+	{
+		$this->db->where('iduser', $id);
+		$this->db->update('user', $data);
+	}
 
 	// Konfirmasi Status User
 	public function status($id, $status)
@@ -49,5 +49,10 @@ class Models_user extends CI_Model
 		$this->db->set('active', $status);
 		$this->db->where('iduser', $id);
 		$this->db->update('user');
+	}
+
+	public function deleteData($kode) {
+		$this->db->where('iduser', $kode);
+		$this->db->delete('user');
 	}
 }

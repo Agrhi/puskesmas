@@ -2,14 +2,14 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table caption-top" id="daftar">
+                <table class="table caption-top" id="pasien">
                     <caption>
                         <div class="row">
                             <div>
                                 Data <?= $title; ?>
                             </div>
                             <div style="text-align: right;">
-                                <a href="<?= base_url('mhs/ganti') ?>" class="btn bg-success text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Tambah Data"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                <button class="btn bg-success text-white btn-sm" onclick="addDataBro()" data-bs-toggle="tooltip" data-bs-placement="top" title="Tambah Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 <a href="<?= base_url('mhs/ganti') ?>" class="btn bg-secondary text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Import Data"><i class="fa fa-download" aria-hidden="true"></i></a>
                                 <a href="<?= base_url('mhs/ganti') ?>" class="btn bg-primary text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Export Data"><i class="fa fa-upload" aria-hidden="true"></i></a>
                             </div>
@@ -37,7 +37,13 @@
                                 <td><?= $value['nik'] ?></td>
                                 <td><?= $value['nama'] ?></td>
                                 <td><?= $value['alamat'] ?></td>
-                                <td><?= $value['jk'] ?></td>
+                                <td><?php if ($value['jk'] == '1') {
+                                        echo 'Laki - Laki';
+                                    } else if ($value['jk'] == '2') {
+                                        echo 'Perempuan';
+                                    } else {
+                                        echo 'Lainnya';
+                                    } ?></td>
                                 <td><?= $value['nohp'] ?></td>
                                 <td>
                                     <button class="btn btn-success btn-sm" onclick="updateDataMhs('<?= $value['noRegist']; ?>')" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Data"><i class="fas fa-edit"></i></button>
@@ -54,86 +60,47 @@
 </section>
 
 <!-- Modal Update Data -->
-<div class="modal fade" id="modalUpdateDataMhs" edit="<?= $showModal == "edit" ? "true" : "false" ?>" tabindex="-1" role="dialog" aria-labelledby="modalUpdateDataMhs" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal fade" id="addPasien" add="<?= $showModal == "add" ? "true" : "false" ?>" tabindex="-1" role="dialog" aria-labelledby="addPasienID" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modaladdid">Update Data</h5>
+                <h5 class="modal-title" id="addPasienID">Update Data</h5>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('mhs/updateDataMhs') ?>" method="POST">
-                    <div class="row">
-                        <input type="hidden" name="id_pendaftar" id="id_pendaftar">
-                        <div class="col-sm-6">
-                            <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="nama" id="nama" value="<?= set_value('nama') ?>">
-                            <?= form_error('nama', '<div id="nama" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control" name="email" id="email" value="<?= set_value('email') ?>">
-                            <?= form_error('email', '<div id="email" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="alamat">Alamat</label>
-                            <input type="text" name="alamat" id="alamat" class="form-control" value="<?= set_value('alamat') ?>">
-                            <?= form_error('alamat', '<div id="alamat" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="jk">Jenis Kelamin</label>
-                            <select name="jk" id="jk" class="form-control">
-                                <option value="">-- Pilih Jenis Kelamin --</option>
-                                <option value="1" <?= set_select('jk', '1') ?>>Laki - Laki</option>
-                                <option value="0" <?= set_select('jk', '0') ?>>Perempuan</option>
-                            </select>
-                            <?= form_error('jk', '<div id="jk" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="asal_sekolah">Asal Sekolah</label>
-                            <input type="text" class="form-control" name="asal_sekolah" id="asal_sekolah" value="<?= set_value('asal_sekolah') ?>">
-                            <?= form_error('asal_sekolah', '<div id="asal_sekolah" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="jurusan">Jurusan</label>
-                            <select name="jurusan" id="jurusan" class="form-control">
-                                <option value="">-- Pilih Jurusan --</option>
-                                <?php foreach ($jurusan as $key => $value) { ?>
-                                    <option value="<?= $value['id_jurusan'] ?>" <?= set_select('jurusan', $value['id_jurusan']) ?>><?= $value['jurusan'] ?></option>
-                                <?php } ?>
-                            </select>
-                            <?= form_error('jurusan', '<div id="jurusan" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="no_hp">No HP</label>
-                            <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?= set_value('no_hp') ?>">
-                            <?= form_error('no_hp', '<div id="no_hp" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="pin">PIN</label>
-                            <input type="text" class="form-control" name="pin" id="pin" value="<?= set_value('pin') ?>">
-                            <?= form_error('pin', '<div id="pin" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <label class="mt-3">Data Orang Tua</label>
-                        <div class="col-sm-6">
-                            <label for="nama_ortu">Nama Orang Tua</label>
-                            <input type="text" class="form-control" name="nama_ortu" id="nama_ortu" value="<?= set_value('nama_ortu') ?>">
-                            <?= form_error('nama_ortu', '<div id="nama_ortu" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="pekerjaan_ortu">Pekerjaan Orang Tua</label>
-                            <input type="text" class="form-control" name="pekerjaan_ortu" id="pekerjaan_ortu" value="<?= set_value('pekerjaan_ortu') ?>">
-                            <?= form_error('pekerjaan_ortu', '<div id="pekerjaan_ortu" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="alamat_ortu">Alamat Orang Tua</label>
-                            <input type="text" class="form-control" name="alamat_ortu" id="alamat_ortu" value="<?= set_value('alamat_ortu') ?>">
-                            <?= form_error('alamat_ortu', '<div id="alamat_ortu" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="no_hp_ortu">No HP Orang Tua</label>
-                            <input type="text" class="form-control" name="no_hp_ortu" id="no_hp_ortu" value="<?= set_value('no_hp_ortu') ?>">
-                            <?= form_error('no_hp_ortu', '<div id="no_hp_ortu" class="form-text text-danger text-left">', '</div>'); ?>
-                        </div>
+                <form action="<?= base_url('pasien/addPasien') ?>" method="POST">
+                    <div class="col-sm-12">
+                        <label for="noRegist">Nomor Registrasi</label>
+                        <input type="text" class="form-control" name="noRegist" id="noRegist" value="<?= set_value('noRegist') ?>">
+                        <?= form_error('noRegist', '<div id="noRegist" class="form-text text-danger text-left">', '</div>'); ?>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" name="nama" id="nama" value="<?= set_value('nama') ?>">
+                        <?= form_error('nama', '<div id="nama" class="form-text text-danger text-left">', '</div>'); ?>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="nik">N I K</label>
+                        <input type="text" class="form-control" name="nik" id="nik" value="<?= set_value('nik') ?>">
+                        <?= form_error('nik', '<div id="nik" class="form-text text-danger text-left">', '</div>'); ?>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" name="alamat" id="alamat" class="form-control" value="<?= set_value('alamat') ?>">
+                        <?= form_error('alamat', '<div id="alamat" class="form-text text-danger text-left">', '</div>'); ?>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="jk">Jenis Kelamin</label>
+                        <select name="jk" id="jk" class="form-control">
+                            <option value="">-- Pilih Jenis Kelamin --</option>
+                            <option value="1" <?= set_select('jk', '1') ?>>Laki - Laki</option>
+                            <option value="0" <?= set_select('jk', '0') ?>>Perempuan</option>
+                        </select>
+                        <?= form_error('jk', '<div id="jk" class="form-text text-danger text-left">', '</div>'); ?>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="no_hp">No HP</label>
+                        <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?= set_value('no_hp') ?>">
+                        <?= form_error('no_hp', '<div id="no_hp" class="form-text text-danger text-left">', '</div>'); ?>
                     </div>
             </div>
             <div class="modal-footer">
@@ -147,35 +114,11 @@
 
 <script>
     $(document).ready(function() {
-        $('#daftar').DataTable();
+        $('#pasien').DataTable();
     });
 
     // on click update data
-    function updateDataMhs(id_pendaftar) {
-        $.ajax({
-            url: "<?= base_url('mhs/getDataMhs') ?>",
-            type: "POST",
-            data: {
-                id_pendaftar: id_pendaftar
-            },
-            dataType: "JSON",
-            success: function(data) {
-                $('#modalUpdateDataMhs').modal('show');
-                $('#id_pendaftar').val(data.id_pendaftar);
-                $('#nama').val(data.nama);
-                $('#email').val(data.email);
-                $('#alamat').val(data.alamat);
-                $('#jk').val(data.jk);
-                $('#asal_sekolah').val(data.asalsekolah);
-                $('#jurusan').val(data.jurusan);
-                $('#tahun_lulus').val(data.tahunlulus);
-                $('#nama_ortu').val(data.namaortu);
-                $('#pekerjaan_ortu').val(data.pekerjaanortu);
-                $('#no_hp_ortu').val(data.nohportu);
-                $('#alamat_ortu').val(data.alamatortu);
-                $('#no_hp').val(data.nohp);
-                $('#pin').val(data.pin);
-            }
-        });
+    function addDataBro() {
+        $('#addPasien').modal('show');
     }
 </script>
