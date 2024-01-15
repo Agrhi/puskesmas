@@ -17,7 +17,7 @@ class Datalatih extends CI_Controller
 			'title' 		=> 'Data Latih',
 			'dataLatih'		=> $this->Models_datalatih->getData()->result_array(),
 		];
-		
+
 		$this->load->view('layout/header', $data);
 		$this->load->view('layout/sidebar', $data);
 		$this->load->view('layout/navbar');

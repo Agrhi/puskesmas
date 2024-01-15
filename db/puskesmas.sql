@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2023 at 10:11 PM
+-- Generation Time: Jan 15, 2024 at 01:07 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -20,6 +20,66 @@ SET time_zone = "+00:00";
 --
 -- Database: `puskesmas`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_latih`
+--
+
+CREATE TABLE `data_latih` (
+  `idDataLatih` int(11) NOT NULL,
+  `alamat` varchar(128) NOT NULL,
+  `jk` int(11) NOT NULL,
+  `umur` varchar(30) NOT NULL,
+  `class` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_latih`
+--
+
+INSERT INTO `data_latih` (`idDataLatih`, `alamat`, `jk`, `umur`, `class`) VALUES
+(1, 'Sumber Agung', 0, 'Muda dan Dewasa', 'K00-K96'),
+(2, 'Kayu Agung', 0, 'Muda dan Dewasa', 'R00-R103'),
+(3, 'Gurinda', 1, 'Muda dan Dewasa', 'I00-I100'),
+(4, 'Kotaraya Timur', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(5, 'Kotaraya Barat', 0, 'Muda dan Dewasa', 'E00-E92'),
+(6, 'Gurinda', 0, 'Muda dan Dewasa', 'E00-E90'),
+(7, 'Kotaraya Induk', 1, 'Muda dan Dewasa', 'J00-J101'),
+(8, 'Kotaraya Tenggara', 0, 'Tua', 'M00-M104'),
+(9, 'Kayu Agung', 1, 'Bayi dan Anak-anak', 'H60-59'),
+(10, 'Ogotion', 0, 'Muda dan Dewasa', 'H60-59'),
+(11, 'Ogomolos', 0, 'Bayi dan Anak-anak', 'J00-J99'),
+(12, 'Ogobayas', 0, 'Muda dan Dewasa', 'ZOO-Z103'),
+(13, 'Moubang', 1, 'Tua', 'K00-K98'),
+(14, 'Bugis', 0, 'Muda dan Dewasa', 'O00-O101'),
+(15, 'Bugis Utara', 1, 'Muda dan Dewasa', 'J00-J105'),
+(16, 'Mensung', 1, 'Muda dan Dewasa', 'J00-J105'),
+(17, 'Mepanga', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(18, 'Maranti', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(19, 'Bugis Utara', 0, 'Tua', 'J00-J105'),
+(20, 'Mepanga', 1, 'Tua', 'K00-K96'),
+(21, 'Ogobayas', 1, 'Bayi dan Anak-anak', 'A00-B99'),
+(22, 'Maranti', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(23, 'Sumber Agung', 0, 'Muda dan Dewasa', 'K00-K96'),
+(24, 'Kayu Agung', 0, 'Muda dan Dewasa', 'ZOO-Z103'),
+(25, 'Kotaraya Induk', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(26, 'Kotaraya Barat', 1, 'Muda dan Dewasa', 'H60-59'),
+(27, 'Bugis', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(28, 'Mepanga', 0, 'Muda dan Dewasa', 'M00-M104'),
+(29, 'Maranti', 1, 'Bayi dan Anak-anak', 'J00-J99'),
+(30, 'Kotaraya Induk', 1, 'Muda dan Dewasa', 'L00-L99'),
+(31, 'kotaraya Selatan', 1, 'Muda dan Dewasa', 'K00-K96'),
+(32, 'Mepanga', 1, 'Tua', 'J00-J105'),
+(33, 'Maranti', 1, 'Muda dan Dewasa', 'I00-I100'),
+(34, 'Sumber Agung', 0, 'Muda dan Dewasa', 'E00-E92'),
+(35, 'Sumber Agung', 1, 'Bayi dan Anak-anak', 'J00-J101'),
+(36, 'Ogomolos', 0, 'Muda dan Dewasa', 'R00-R103'),
+(37, 'Sumber Agung', 1, 'Tua', 'K00-K98'),
+(38, 'Maranti', 0, 'Muda dan Dewasa', 'ZOO-Z100'),
+(39, 'kotaraya Selatan', 0, 'Tua', 'I00-I104'),
+(40, 'Mensung', 0, 'Bayi dan Anak-anak', 'L00-L99');
 
 -- --------------------------------------------------------
 
@@ -190,7 +250,8 @@ CREATE TABLE `rekamedis` (
 INSERT INTO `rekamedis` (`idRekamedis`, `noRegist`, `poli`, `keluhan`, `tensi`, `bb`, `tb`, `diagnosa`, `tgl`, `keterangan`, `status`) VALUES
 ('20bd461b-842f-11ee-a2cc-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-16', NULL, '1'),
 ('5c5d0dd5-81e9-11ee-ac11-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-13', NULL, '2'),
-('6a5e18d0-82b2-11ee-a2cc-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-14', NULL, '1');
+('6a5e18d0-82b2-11ee-a2cc-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-14', NULL, '1'),
+('c6f2ae57-9d59-11ee-89cd-c01850377e9b', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-18', NULL, '1');
 
 -- --------------------------------------------------------
 
@@ -218,6 +279,12 @@ INSERT INTO `user` (`iduser`, `nama`, `username`, `password`, `active`, `role`) 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `data_latih`
+--
+ALTER TABLE `data_latih`
+  ADD PRIMARY KEY (`idDataLatih`);
 
 --
 -- Indexes for table `diagnosa`
@@ -254,6 +321,12 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `data_latih`
+--
+ALTER TABLE `data_latih`
+  MODIFY `idDataLatih` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `user`

@@ -1,0 +1,8 @@
+rumus mencari nilai entropy (in excel):
+((-jumlh ya/all total)*imlog2(jumlh ya / all total)+(-jmlh tdk/ all total)*imlog2(jmlh tdk / all total))
+
+rumus mencari nilai gain (in excel):
+(entropy total)
+-((jmlh rajin / all total)*entropy rajin)
+-((jmlh cukup / all total)*entropy cukup)
+-((entropy kurang/all total)*entropy kurang)
