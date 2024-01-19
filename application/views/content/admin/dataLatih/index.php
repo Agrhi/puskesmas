@@ -51,7 +51,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="importdatalatih">Update Data</h5>
+                    <h5 class="modal-title" id="importdatalatih">Import Data</h5>
                 </div>
                 <form action="<?= base_url('Datalatih/import') ?>" method="POST" enctype="multipart/form-data">
                     <div class="modal-body">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-gradient-primary">Update</button>
+                        <button type="submit" class="btn bg-gradient-primary">Save</button>
                         <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>

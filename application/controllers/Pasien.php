@@ -1,6 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require 'vendor1/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+
 class Pasien extends CI_Controller
 {
 
@@ -11,7 +18,6 @@ class Pasien extends CI_Controller
 		cek_login();
 	}
 
-	// loadView
 	private function loadView($showModal = "index")
 	{
 		$data = [
@@ -27,198 +33,208 @@ class Pasien extends CI_Controller
 		$this->load->view('layout/footer');
 	}
 
-
 	public function index()
 	{
 		$this->loadView();
 	}
 
-	// function untuk mengubah status Active
-	public function stActive($act, $id)
+	public function add()
 	{
-		if ($act == 'aktifkan') {
-			$data = [
-				'stActive' => 1,
-				'stBayar' => 1,
-				'pin' => $this->generateRandomString()
-			];
-		} else {
-			$data = [
-				'stActive' => 0,
-				'stBayar' => 0,
-				'pin' => ''
-			];
-		}
-
-		$result = $this->Models_mhs->update($data, $id);
-		if ($result) {
-			$this->session->set_flashdata('swetalert', '`Good JoOb!`, `Data Berhasil di Aktifkan`, `success`');
-		} else {
-			$this->session->set_flashdata('swetalert', '`Upsss!`, `Sorry., Data gagal di Aktifkan`, `error`');
-		}
-		redirect('mhs');
-	}
-
-	// fungsi generate angka random untuk pin dan tidak boleh sama dengan yang sudah ada di tabel pendaftar.pin
-	function generateRandomString($length = 10)
-	{
-		$pin = substr(str_shuffle(str_repeat($x = '0123456789', ceil($length / strlen($x)))), 1, $length);
-		$cek = $this->db->get_where('pendaftar', ['pin' => $pin])->row_array();
-		if ($cek) {
-			$this->generateRandomString();
-		} else {
-			return $pin;
-		}
-	}
-
-	// function untuk mengambil data bukti bayar
-	public function getDataMhs()
-	{
-		$id_pendaftar = $this->input->post('id_pendaftar');
-		$data = $this->Models_mhs->getData($id_pendaftar, $act = 'id')->row_array();
-		echo json_encode($data);
-	}
-
-	//resetPassword
-	public function resetPassword()
-	{
-		$id_pendaftar = htmlspecialchars($this->input->post('id_pendaftar'));
-		$password = htmlspecialchars($this->input->post('password'));
-
-		$data = [
-			'password' => password_hash($password, PASSWORD_DEFAULT)
-		];
-
-		$result = $this->Models_mhs->update($data, $id_pendaftar);
-		if ($result) {
-			$this->session->set_flashdata('swetalert', '`Good JoOb!`, `Password Berhasil di Reset`, `success`');
-		} else {
-			$this->session->set_flashdata('swetalert', '`Upsss!`, `Sorry., Password gagal di Reset`, `error`');
-		}
-		redirect('mhs');
-	}
-
-	// updateStatusLulus
-	public function updateStatusLulus($act, $id_pendaftar)
-	{
-		if ($act == 'luluskan') {
-			$data = [
-				'stLulus' => '1'
-			];
-		} else {
-			$data = [
-				'stLulus' => '0'
-			];
-		}
-
-		$result = $this->Models_mhs->update($data, $id_pendaftar);
-		if ($result) {
-			$this->session->set_flashdata('swetalert', '`Good JoOb!`, `Status Lulus Berhasil di Update`, `success`');
-		} else {
-			$this->session->set_flashdata('swetalert', '`Upsss!`, `Sorry., Status Lulus gagal di Update`, `error`');
-		}
-		redirect('mhs');
-	}
-
-	// updateDataMhs
-	public function updateDataMhs()
-	{
-		$id_pendaftar = htmlspecialchars($this->input->post('id_pendaftar'));
-		$nama = htmlspecialchars($this->input->post('nama'));
-		$email = htmlspecialchars($this->input->post('email'));
-		$alamat = htmlspecialchars($this->input->post('alamat'));
-		$jk = htmlspecialchars($this->input->post('jk'));
-		$asal_sekolah = htmlspecialchars($this->input->post('asal_sekolah'));
-		$jurusan = htmlspecialchars($this->input->post('jurusan'));
-		$no_hp = htmlspecialchars($this->input->post('no_hp'));
-		$pin = htmlspecialchars($this->input->post('pin'));
-		$nama_ortu = htmlspecialchars($this->input->post('nama_ortu'));
-		$pekerjaan_ortu = htmlspecialchars($this->input->post('pekerjaan_ortu'));
-		$alamat_ortu = htmlspecialchars($this->input->post('alamat_ortu'));
-		$no_hp_ortu = htmlspecialchars($this->input->post('no_hp_ortu'));
-
-		// validasi
 		$this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
-			'required' => 'Nama tidak boleh kosong!'
+			'required' => 'Nama harus diisi!',
 		]);
-		$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', [
-			'required' => 'Email tidak boleh kosong!',
-			'valid_email' => 'Email tidak valid!'
+		$this->form_validation->set_rules('nik', 'NIK', 'required|trim|numeric|min_length[16]|callback_check_unique_nik', [
+			'required' => 'NIK harus diisi!',
+			'numeric' => 'Hanya boleh angka',
+			'min_length' => 'NIK minimal 16 angka!',
+			'check_unique_nik' => 'NIK sudah terdaftar, harap gunakan NIK lain!',
 		]);
 		$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
-			'required' => 'Alamat tidak boleh kosong!'
+			'required' => 'Alamat harus diisi!',
 		]);
-		$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required|trim', [
-			'required' => 'Jenis Kelamin tidak boleh kosong!'
+		$this->form_validation->set_rules('jk', 'Jenis kelamin', 'required|trim', [
+			'required' => 'Jenis kelamin harus diisi!',
 		]);
-		$this->form_validation->set_rules('asal_sekolah', 'Asal Sekolah', 'required|trim', [
-			'required' => 'Asal Sekolah tidak boleh kosong!'
+		$this->form_validation->set_rules('nohp', 'No. Hp', 'required|trim|numeric|min_length[10]', [
+			'required' => 'No. Hp harus diisi!',
+			'numeric' => 'Hanya boleh angka',
+			'min_length' => 'No. Hp minimal 10 angka!',
 		]);
-		$this->form_validation->set_rules('jurusan', 'Jurusan', 'required|trim', [
-			'required' => 'Jurusan tidak boleh kosong!'
+
+		if ($this->form_validation->run() == false) {
+			$this->loadView('add');
+		} else {
+			$data 	= [
+				'noRegist'		=> $this->generateNoRegist(),
+				'nik'		=> htmlspecialchars($this->input->post('nik', true)),
+				'nama'		=> htmlspecialchars($this->input->post('nama'), true),
+				'alamat'		=> htmlspecialchars($this->input->post('alamat'), true),
+				'jk'		=> htmlspecialchars($this->input->post('jk'), true),
+				'nohp'		=> htmlspecialchars($this->input->post('nohp'), true),
+			];
+			$result = $this->Models_pasien->insert($data);
+			if ($result) {
+				$this->session->set_flashdata('swetalert', '`Good job!`, `Data Berhasil Di Tambahkan !`, `success`');
+			} else {
+				$this->session->set_flashdata('swetalert', '`Upsss!`, `Data Gagal Di Tambahkan !`, `error`');
+			}
+			redirect('Pasien');
+		}
+	}
+
+	public function update()
+	{
+		$this->form_validation->set_rules('noRegist', 'No. Regist', 'required|trim', [
+			'required' => 'No. Regist harus diisi!',
 		]);
-		$this->form_validation->set_rules('no_hp', 'Nomor HP', 'required|trim', [
-			'required' => 'No HP tidak boleh kosong!'
+		$this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
+			'required' => 'Nama harus diisi!',
 		]);
-		$this->form_validation->set_rules('pin', 'Pin', 'required|trim|numeric', [
-			'required' => 'Pin tidak boleh kosong!',
-			'numeric' => 'Pin harus angka!'
+		$this->form_validation->set_rules('nik', 'NIK', 'required|trim|numeric|min_length[16]', [
+			'required' => 'NIK harus diisi!',
+			'numeric' => 'Hanya boleh angka',
+			'min_length' => 'NIK minimal 16 angka!',
 		]);
-		$this->form_validation->set_rules('nama_ortu', 'Nama Orang Tua', 'required|trim', [
-			'required' => 'Nama Orang Tua tidak boleh kosong!'
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
+			'required' => 'Alamat harus diisi!',
 		]);
-		$this->form_validation->set_rules('pekerjaan_ortu', 'Pekerjaan Orang Tua', 'required|trim', [
-			'required' => 'Pekerjaan Orang Tua tidak boleh kosong!'
+		$this->form_validation->set_rules('jk', 'Jenis kelamin', 'required|trim', [
+			'required' => 'Jenis kelamin harus diisi!',
 		]);
-		$this->form_validation->set_rules('alamat_ortu', 'Alamat Orang Tua', 'required|trim', [
-			'required' => 'Alamat Orang Tua tidak boleh kosong!'
-		]);
-		$this->form_validation->set_rules('no_hp_ortu', 'Nomor HP Orang Tua', 'required|trim|numeric', [
-			'required' => 'No HP Orang Tua tidak boleh kosong!',
-			'numeric' => 'No HP Orang Tua harus angka!'
+		$this->form_validation->set_rules('nohp', 'No. Hp', 'required|trim|numeric|min_length[10]', [
+			'required' => 'No. Hp harus diisi!',
+			'numeric' => 'Hanya boleh angka',
+			'min_length' => 'No. Hp minimal 10 angka!',
 		]);
 
 		if ($this->form_validation->run() == false) {
 			$this->loadView('edit');
 		} else {
-			$data = [
-				'nama' => $nama,
-				'email' => $email,
-				'alamat' => $alamat,
-				'jk' => $jk,
-				'asalsekolah' => $asal_sekolah,
-				'jurusan' => $jurusan,
-				'nohp' => $no_hp,
-				'pin' => $pin,
-				'namaortu' => $nama_ortu,
-				'pekerjaanortu' => $pekerjaan_ortu,
-				'alamatortu' => $alamat_ortu,
-				'nohportu' => $no_hp_ortu
+			$data 	= [
+				'noRegist'		=> htmlspecialchars($this->input->post('noRegist', true)),
+				'nik'		=> htmlspecialchars($this->input->post('nik', true)),
+				'nama'		=> htmlspecialchars($this->input->post('nama'), true),
+				'alamat'		=> htmlspecialchars($this->input->post('alamat'), true),
+				'jk'		=> htmlspecialchars($this->input->post('jk'), true),
+				'nohp'		=> htmlspecialchars($this->input->post('nohp'), true),
 			];
-
-			$result = $this->Models_mhs->update($data, $id_pendaftar);
+			$result = $this->Models_pasien->update($data);
 			if ($result) {
-				$this->session->set_flashdata('swetalert', '`Good JoOb!`, `Data Berhasil di Update`, `success`');
+				$this->session->set_flashdata('swetalert', '`Good job!`, `Data Berhasil Di Perbarui !`, `success`');
 			} else {
-				$this->session->set_flashdata('swetalert', '`Upsss!`, `Sorry., Data gagal di Update`, `error`');
+				$this->session->set_flashdata('swetalert', '`Upsss!`, `Data Gagal Di Perbarui !`, `error`');
 			}
-			redirect('mhs');
+			redirect('Pasien');
 		}
 	}
 
-	// updateStPengumuman
-	public function updateStPengumuman()
+	public function import()
 	{
-		$data = [
-			'stPengumuman' => '1'
-		];
-
-		$result = $this->Models_mhs->update($data);
-		if ($result) {
-			$this->session->set_flashdata('swetalert', '`Good JoOb!`, `Status Pengumuman Berhasil di Update`, `success`');
-		} else {
-			$this->session->set_flashdata('swetalert', '`Upsss!`, `Sorry., Status Pengumuman gagal di Update`, `error`');
+		$upload_file = $_FILES['upload-data-pasien']['name'];
+		$extension = pathinfo($upload_file, PATHINFO_EXTENSION);
+		if ($extension == 'csv') {
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
 		}
-		redirect('mhs');
+		$spreadsheet = $reader->load($_FILES['upload-data-pasien']['tmp_name']);
+		$sheetdata = $spreadsheet->getActiveSheet()->toArray();
+		$sheetcount = count($sheetdata);
+		if ($sheetcount > 1) {
+			$data = [];
+			for ($i = 1; $i < $sheetcount; $i++) {
+				$data_nik = $sheetdata[$i][0];
+				$data_nama = $sheetdata[$i][1];
+				$data_alamat = $sheetdata[$i][2];
+				$data_jk = $sheetdata[$i][3];
+				$data_nohp = $sheetdata[$i][4];
+				$data[] = [
+					'noRegist' => $this->generateNoRegist(),
+					'nik' => $data_nik,
+					'nama' => $data_nama,
+					'alamat' => $data_alamat,
+					'jk' => $data_jk,
+					'nohp' => $data_nohp,
+				];
+			}
+			$result = $this->Models_pasien->insert_batch($data);
+			if ($result) {
+				$this->session->set_flashdata('swetalert', '`Good JoOb!`, `Data Berhasil di import`, `success`');
+			} else {
+				$this->session->set_flashdata('swetalert', '`Upsss!`, `Sorry., Data gagal di import`, `error`');
+			}
+			redirect('Pasien');
+		}
+	}
+
+	public function export()
+	{
+		$data = $this->Models_pasien->export();
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+
+		foreach (range('A', 'F') as $columID) {
+			$spreadsheet->getActiveSheet()->getColumnDimension($columID)->setAutoSize(true);
+		}
+
+		$totalRows = count($data) + 1;
+
+		$headerTitle = 'Rekap Data Pasien';
+		$headerCell = 'A1:J1';
+
+		$sheet->setCellValue('A1', $headerTitle);
+		$sheet->mergeCells($headerCell);
+		$sheet->getStyle($headerCell)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+		$sheet->getStyle($headerCell)->getFont()->setSize(16)->setBold(true);
+
+		$sheet->setCellValue('A2', 'No. Regist');
+		$sheet->setCellValue('B2', 'NIK');
+		$sheet->setCellValue('C2', 'Nama');
+		$sheet->setCellValue('D2', 'Alamat');
+		$sheet->setCellValue('E2', 'Jenis Kelamin');
+		$sheet->setCellValue('F2', 'No. Hp');
+
+		$rowIndex = 3;
+		foreach ($data as $row) {
+			$sheet->setCellValue('A' . $rowIndex, $row['noRegist']);
+			$sheet->setCellValue('B' . $rowIndex, $row['nik']);
+			$sheet->setCellValue('C' . $rowIndex, $row['nama']);
+			$sheet->setCellValue('D' . $rowIndex, $row['alamat']);
+			$sheet->setCellValue('E' . $rowIndex, $row['jk']);
+			$sheet->setCellValue('F' . $rowIndex, $row['nohp']);
+
+			$rowIndex++;
+		}
+
+		$writer = new Xlsx($spreadsheet);
+		$filename = 'Rekap_data_pasien';
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="' . $filename . '.xlsx"');
+		header('Cache-Control: max-age=0');
+		$writer->save('php://output');
+	}
+
+	public function check_unique_nik($nik)
+	{
+		if ($this->Models_pasien->is_nik_unique($nik)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function generateNoRegist()
+	{
+		$prefix = 'REG';
+		$random_number = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+
+		$noRegist = $prefix . $random_number;
+
+		while (!$this->Models_pasien->isNoRegistUnique($noRegist)) {
+			$random_number = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+			$noRegist = $prefix . $random_number;
+		}
+
+		return $noRegist;
 	}
 }

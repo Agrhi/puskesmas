@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Models_pasien extends CI_Model
 {
-	// get all data in table contact
 	function getData($data = null)
 	{
 		$this->db->select('*');
@@ -15,28 +14,46 @@ class Models_pasien extends CI_Model
 		return $this->db->get();
 	}
 
-	// getDataWhereUser
-	function getDataWhereUser($username)
+	function insert($data)
 	{
-		$this->db->select('*');
-		$this->db->from('pendaftar');
-		$this->db->where('username', $username);
-		return $this->db->get();
+		return $this->db->insert('pasien', $data);
 	}
 
-	// register
-	function register($data)
+	function insert_batch($data)
 	{
-		$this->db->set('id_pendaftar', 'UUID()', FALSE);
-		$this->db->insert('pendaftar', $data);
+		return $this->db->insert_batch('pasien', $data);
 	}
 
-	// update
-	function update($data, $id= null)
+	function update($data)
 	{
-		if ($id != null){
-			$this->db->where('id_pendaftar', $id);
-		}
-		return $this->db->update('pendaftar', $data);
+		$this->db->where('noRegist', $data['noRegist']);
+		return $this->db->update('pasien', $data);
+	}
+
+	function export()
+	{
+		return $this->db->query("SELECT noRegist, nik, nama, alamat,
+		CASE 
+            WHEN jk = 0 THEN 'Perempuan'
+            WHEN jk = 1 THEN 'Laki-laki'
+            ELSE 'Status Tidak Dikenali'
+        END AS jk,
+		nohp FROM pasien")->result_array();
+	}
+
+	public function is_nik_unique($nik)
+	{
+		$this->db->where('nik', $nik);
+		$query = $this->db->get('pasien');
+
+		return $query->num_rows() === 0;
+	}
+
+	public function isNoRegistUnique($noRegist)
+	{
+		$this->db->where('noRegist', $noRegist);
+		$query = $this->db->get('pasien');
+
+		return $query->num_rows() === 0;
 	}
 }
