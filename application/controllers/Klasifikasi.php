@@ -147,9 +147,9 @@ class Klasifikasi extends CI_Controller
         $data['jmlPerSubAtr'] = $this->jmlPerSubAtr($data['subAtribut']); // mengambil jumlah seluru data per sub atribut
         $data['jmlPerKelas'] = $this->jmlPerKelas($data['kelas']); // mengambil jumlah seluru data per kelas
         $data['jmlKelasPerSubAtr'] = $this->jmlKelasPerSubAtr($data['kelas'], $data['subAtribut']); // mengambil jumlah seluru data kelas per sub atribut
-        // $data['himpun'] = $this->himpun($data['jmlKelasPerSubAtr']);
+        $data['himpun'] = $this->himpun($data['jmlKelasPerSubAtr']);
         $data['entrophyTotal'] = $this->entrophyTotal($data['jmlTotal'], $data['jmlPerKelas']); // menghitung nilai entrophy Keseluruhan
-        // $data['entrophy'] = $this->entrophy($data['jmlPerSubAtr'], $data['jmlKelasPerSubAtr']); // menghitung nilai entrophy per sub Atribut
+        $data['entrophy'] = $this->entrophy($data['jmlPerSubAtr'], $data['himpun']); // menghitung nilai entrophy per sub Atribut
         $data['gain'] = $this->gain();
 
 
@@ -223,12 +223,17 @@ class Klasifikasi extends CI_Controller
         return $result;
     }
 
-    private function himpun($data){
+    private function himpun($data)
+    {
         $result = [];
-
-        foreach($data as $value) {
-
+        foreach ($data as $groupKey => $group) {
+            foreach ($group as $subGroupKey => $subGroup) {
+                foreach ($subGroup as $subSubGroupKey => $value) {
+                    $result[$subGroupKey][$subSubGroupKey][$groupKey] = $value;
+                }
+            }
         }
+        return $result;
     }
 
     // mengambil jumlah keseluruhan
@@ -246,22 +251,24 @@ class Klasifikasi extends CI_Controller
         // return $result;
         $entrophyResult = [];
 
-        foreach ($data as $tingkatanKelas => $dataKelas) {
-            foreach ($dataKelas as $atribut => $nilaiAtribut) {
-                // $jmlTotalAtribut = array_sum($nilaiAtribut);
 
-                foreach ($nilaiAtribut as $key => $jumlah) {
-                    // Hitung entropi untuk setiap nilai atribut menggunakan fungsi countEntrophy
-                    // $entrophyResult[$tingkatanKelas][$atribut][$key] = $this->countEntrophy($jmlTotal, $jumlah);
-                    $entrophyResult[$tingkatanKelas][$atribut][$key] = $this->countEntrophy($jmlTotal, $jumlah);
+        foreach ($jmlTotal as $jmlTotals) {
+            foreach ($jmlTotals as $key => $value) {
+                foreach ($data as $tingkatanKelas => $dataKelas) {
+                    foreach ($dataKelas as $atribut => $nilaiAtribut) {
+                        // $jmlTotalAtribut = array_sum($nilaiAtribut);
 
+                        foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
+                        $hasil = $this->countEntrophy($value, $jumlah);
+                        // if (is_nan($hasil)) {
+                        //     $hasil = 0;
+                        // }
+                        $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
+                        }
+                    }
                 }
             }
         }
-
-        // noval
-
-
         return $entrophyResult;
     }
 
