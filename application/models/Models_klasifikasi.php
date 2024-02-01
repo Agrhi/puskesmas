@@ -183,4 +183,45 @@ class Models_klasifikasi extends CI_Model
 
         return $this->db->query($query)->row_array();
     }
+
+
+    // Agrh
+
+    // Mengambil atribut berdasarkan nama kolom di tabel datlatih
+    public function getAtribut()
+    {
+        $columnNames = $this->db->list_fields('data_latih');
+        $result = array_slice($columnNames, 1, -1);
+        return $result;
+    }
+
+    // mengambil data subAtribut berdasarkan data atribut dan juga mengambil data Kelas
+    public function getSubAtribut($colum){
+        $this->db->select($colum);
+        $this->db->group_by($colum);
+        return $this->db->get('data_latih')->result_array();
+    }
+
+    // mengambil jumlah keseliuruhan data
+    public function jmlTotal()
+    {
+        return $this->db->get('data_latih')->num_rows();
+    }
+
+    // count data berdasarkan key dan value
+    public function countAtributlow($colum, $where){
+        $this->db->where($colum, $where);
+        return $this->db->get('data_latih')->num_rows();
+    }
+    
+    // count data berdasarkan key dan value
+    public function countAtribut($colum, $where, $columAtr = '', $whereAtr = ''){
+        $this->db->where($colum, $where);
+        if ($whereAtr != ''){
+            $this->db->where($columAtr, $whereAtr);
+        }
+        return $this->db->get('data_latih')->num_rows();
+    }
+
+
 }

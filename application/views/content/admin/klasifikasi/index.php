@@ -49,6 +49,7 @@
                         <div class="col-md-2">
                             <button type="submit" name="all" value="false" id="submit-with-filter" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i></button>
                             <button type="submit" name="all" value="true" id="submit-all" class="btn btn-success">All</button>
+                            <a href="<?= base_url('Klasifikasi/latihData') ?>" type="button"  class="btn btn-success">Latih</a>
                         </div>
                     </div>
                 </form>
