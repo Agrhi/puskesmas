@@ -150,7 +150,9 @@ class Klasifikasi extends CI_Controller
         $data['himpun'] = $this->himpun($data['jmlKelasPerSubAtr']);
         $data['entrophyTotal'] = $this->entrophyTotal($data['jmlTotal'], $data['jmlPerKelas']); // menghitung nilai entrophy Keseluruhan
         $data['entrophy'] = $this->entrophy($data['jmlPerSubAtr'], $data['himpun']); // menghitung nilai entrophy per sub Atribut
-        $data['gain'] = $this->gain();
+        $data['gain'] = $this->gain($data['jmlTotal'], $data['entrophyTotal'], $data['jmlPerSubAtr'], $data['entrophy']);
+        $data['gainTertinggi'] = $this->gainTertinggi($data['gain']);
+        $data['entrophygainTerting'] = $this->entrophygainTerting($data['gainTertinggi'], $data['entrophy']);
 
 
         echo '<pre>';
@@ -249,6 +251,8 @@ class Klasifikasi extends CI_Controller
         //     }
         // }
         // return $result;
+
+        // kedua
         $entrophyResult = [];
 
 
@@ -256,20 +260,46 @@ class Klasifikasi extends CI_Controller
             foreach ($jmlTotals as $key => $value) {
                 foreach ($data as $tingkatanKelas => $dataKelas) {
                     foreach ($dataKelas as $atribut => $nilaiAtribut) {
-                        // $jmlTotalAtribut = array_sum($nilaiAtribut);
+                        // Set nilai awal untuk indeks 'hasil'
+                        $entrophyResult[$tingkatanKelas][$atribut] = 0;
 
                         foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
-                        $hasil = $this->countEntrophy($value, $jumlah);
-                        // if (is_nan($hasil)) {
-                        //     $hasil = 0;
-                        // }
-                        $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
+                            $hasil = $this->countEntrophy($value, $jumlah);
+                            if (!is_nan($hasil)) {
+                                $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
+                                // $entrophyResult[$tingkatanKelas][$atribut][$keyhimpun] = $hasil;
+                            }
                         }
                     }
                 }
             }
         }
         return $entrophyResult;
+
+        // $entrophyResult = [];
+
+        // foreach ($jmlTotal as $jmlTotals) {
+        //     foreach ($jmlTotals as $key => $value) {
+        //         foreach ($data as $tingkatanKelas => $dataKelas) {
+        //             foreach ($dataKelas as $atribut => $nilaiAtribut) {
+        //                 // Set nilai awal untuk indeks 'hasil'
+        //                 $entrophyResult[$tingkatanKelas][$atribut] = 0;
+
+        //                 foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
+        //                     $hasil = $this->countEntrophy($value, $jumlah);
+
+        //                     if (!is_nan($hasil)) {
+        //                         // $entrophyResult[$tingkatanKelas][$atribut][$keyhimpun] = $hasil;
+        //                         // Tambahkan hasil ke indeks 'hasil'
+        //                         $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // return $entrophyResult;
     }
 
     private function entrophyTotal($jmlTotal, $data)
@@ -281,10 +311,26 @@ class Klasifikasi extends CI_Controller
         return $result;
     }
 
-    // mengambil jumlah keseluruhan
-    private function gain()
+    private function gain($jmlTotal, $entrophyTotal, $jmlPerSubAtr, $entrophyPerSubAtr)
     {
-        return $this->Models_klasifikasi->jmlTotal();
+        // print_r($entrophyTotal); die;
+        $result = [];
+
+        foreach ($jmlPerSubAtr as $subAtrKey => $subAtrValue) {
+            foreach ($subAtrValue as $key => $value) {
+
+
+                foreach ($entrophyPerSubAtr as $perAtrValue) {
+                    $hasilSubAtr = $entrophyTotal; // Deklarasikan Variable hasil
+                    foreach ($perAtrValue as $keySub => $enPerSubAtr) {
+                        $hasilSubAtr -= $this->countGain($value, $jmlTotal, $enPerSubAtr);
+                    }
+                    $result[$subAtrKey] = $hasilSubAtr;
+                }
+            }
+        }
+
+        return $result;
     }
 
     // Rumus menghitung entrophy
@@ -295,7 +341,36 @@ class Klasifikasi extends CI_Controller
     }
 
     // Rumus menghitung gain
-    private function countGain()
+    private function countGain($jmlPerSubAtr, $jmlTotal, $enthropyAtribut)
     {
+        // echo $jmlPerSubAtr .' - '.$jmlTotal . ' - '.$enthropyAtribut; die;
+        return (($jmlPerSubAtr / $jmlTotal) * $enthropyAtribut);
+    }
+
+    private function gainTertinggi($gain)
+    {
+        // Mengurutkan array secara descending berdasarkan nilai
+        arsort($gain);
+
+        // Mengambil kunci dan nilai dari elemen pertama (yang memiliki nilai tertinggi)
+        $highestValueKey = key($gain);
+        $highestValue = reset($gain);
+
+        return [
+            $highestValueKey => $highestValue,
+        ];
+    }
+
+    private function entrophygainTerting($gainTerTinggi, $entrophygainTerting)
+    {
+        $result = [];
+        foreach ($entrophygainTerting as $entKey => $value) {
+            foreach ($gainTerTinggi as $gainKey => $values) {                
+                if ($entKey === $gainKey) {
+                    $result[$entKey] = $value;
+                }
+            }
+        }
+        return $result;
     }
 }
