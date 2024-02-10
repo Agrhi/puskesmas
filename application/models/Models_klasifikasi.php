@@ -215,12 +215,20 @@ class Models_klasifikasi extends CI_Model
     }
     
     // count data berdasarkan key dan value
-    public function countAtribut($colum, $where, $columAtr = '', $whereAtr = ''){
+    public function countAtribut($colum, $where, $columAtr = '', $whereAtr = '', $columAtrWhere = '', $whereAtrWhere = ''){
         $this->db->where($colum, $where);
         if ($whereAtr != ''){
             $this->db->where($columAtr, $whereAtr);
         }
+        if ($columAtrWhere != ''){
+            $this->db->where($columAtrWhere, $whereAtrWhere);
+        }
         return $this->db->get('data_latih')->num_rows();
+    }
+
+    public function getDataWhereAtr($whereAtrKey, $whereAtrVal) {
+        $this->db->where($whereAtrKey, $whereAtrVal);
+        return $this->db->get('data_latih')->result_array();
     }
 
 
