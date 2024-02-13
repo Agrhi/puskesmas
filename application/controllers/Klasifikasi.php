@@ -172,6 +172,9 @@ class Klasifikasi extends CI_Controller
         // $data['jmlPerSubAtrWhere'] = $this->jmlPerSubAtrWhere($data['subAtribut'], $data['gainTertinggi']); // dibuat sementara nantinya mungkin berguna saat pake looping
         $data['step2'] = $this->stepByStep($data['kelas'], $data['subAtribut'], $data['entrophyTotal'], $data['jmlTotal'], $data['entrophygainTerting'], $data['gainTertinggi']);
 
+        // noval mencoba melanjutkan perjuangan
+
+
         echo '<pre>';
         print_r($data);
 
@@ -366,55 +369,58 @@ class Klasifikasi extends CI_Controller
 
         // kedua
         $entrophyResult = [];
+        switch ($act) {
+            case 'step1':
+                foreach ($jmlTotal as $jmlTotals) {
+                    foreach ($jmlTotals as $key => $value) {
+                        // $entrophyResult['noval_cek_data'][$key] = $value;
+                        foreach ($data as $tingkatanKelas => $dataKelas) {
+                            foreach ($dataKelas as $atribut => $nilaiAtribut) {
+                                // Set nilai awal untuk indeks 'hasil'
+                                $entrophyResult[$tingkatanKelas][$atribut] = 0;
 
-        if ($act === 'step1') {
-
-
-            foreach ($jmlTotal as $jmlTotals) {
-                foreach ($jmlTotals as $key => $value) {
-                    foreach ($data as $tingkatanKelas => $dataKelas) {
-                        foreach ($dataKelas as $atribut => $nilaiAtribut) {
-                            // Set nilai awal untuk indeks 'hasil'
-                            $entrophyResult[$tingkatanKelas][$atribut] = 0;
-
-                            foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
-                                $hasil = $this->countEntrophy($value, $jumlah);
-                                if (!is_nan($hasil)) {
-                                    $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
-                                    // $entrophyResult[$tingkatanKelas][$atribut][$keyhimpun] = $hasil;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            foreach ($jmlTotal as $jmlTotals) {
-                foreach ($jmlTotals as $jmlTotalss) {
-                    foreach ($jmlTotalss as $key => $value) {
-                        foreach ($data as $tingkatanKelass => $dataKelass) {
-                            foreach ($dataKelass as $tingkatanKelas => $dataKelas) {
-                                foreach ($dataKelas as $atribut => $nilaiAtribut) {
-                                    // Set nilai awal untuk indeks 'hasil'
-                                    $entrophyResult[$tingkatanKelas][$atribut] = 0;
-
-                                    foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
-                                        // $entrophyResult[$tingkatanKelas][$atribut] = $jumlah;
-                                        $entrophyResult[$tingkatanKelas][$atribut][$keyhimpun] = $jumlah;
-                                        // $hasil = $this->countEntrophy($value, $jumlah);
-                                        // if (!is_nan($hasil)) {
-                                        //     $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
-                                        //     // $entrophyResult[$tingkatanKelas][$atribut][$keyhimpun] = $hasil;
-                                        // }
+                                foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
+                                    // $entrophyResult['noval_cek_data2'][$keyhimpun] = $jumlah;
+                                    $hasil = $this->countEntrophy($value, $jumlah);
+                                    if (!is_nan($hasil)) {
+                                        $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
+                break;
+
+            default:
+                foreach ($jmlTotal as $jmlTotals) {
+                    foreach ($jmlTotals as $jt) {
+                        foreach ($jt as $key => $value) {
+                            // $entrophyResult['noval_cek_data'][$key] = $value;
+                            foreach ($data as $tingkatanKelas => $dataKelas) { //sampe sini format data sama seperti step 1
+                                foreach ($dataKelas as $tingkatanKelass => $dataKelass) {
+                                    foreach ($dataKelass as $atribut => $nilaiAtribut) {
+                                        // Set nilai awal untuk indeks 'hasil'
+                                        $entrophyResult[$tingkatanKelas][$atribut] = 0;
+
+                                        foreach ($nilaiAtribut as $keyhimpun => $jumlah) {
+                                            // $entrophyResult['noval_cek_data2'][$keyhimpun] = $jumlah;
+                                            $hasil = $this->countEntrophy($value, $jumlah);
+                                            if (!is_nan($hasil)) {
+                                                $entrophyResult[$tingkatanKelas][$atribut] += $hasil;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
         }
+
         return $entrophyResult;
+
 
         // $entrophyResult = [];
 
@@ -476,8 +482,12 @@ class Klasifikasi extends CI_Controller
     // Rumus menghitung entrophy
     private function countEntrophy($jmlTotal, $jmlClassPerSubAtr)
     {
-        $result = (-$jmlClassPerSubAtr / $jmlTotal) * log($jmlClassPerSubAtr / $jmlTotal, 2);
-        return $result;
+        if ($jmlTotal != 0 && $jmlClassPerSubAtr != 0) {
+            $result = (-$jmlClassPerSubAtr / $jmlTotal) * log($jmlClassPerSubAtr / $jmlTotal, 2);
+            return $result;
+        } else {
+            return 0;
+        }
     }
 
     // Rumus menghitung gain
@@ -533,16 +543,16 @@ class Klasifikasi extends CI_Controller
 
         $step = [];
 
-        foreach ($entrophygainTerting as $entrophygainTertingVal) {
-            foreach ($entrophygainTertingVal as $entrophygainTertingKey => $entrophygainTertingValues) {
-                // $data = $entrophygainTertingKey;
-                $data['jmlPerSubAtr'] = $this->jmlPerSubAtrWhere($subAtribut, $gainTertinggi, $entrophygainTerting); // mengambil jumlah seluru data per sub atribut
-                $data['jmlSubAtributPerKelas'] = $this->jmlSubAtributPerKelas($kelas, $subAtribut, $entrophygainTerting, $gainTertinggi);
-                // $data['entrophy'] = $this->entrophy('step2', $data['jmlPerSubAtr'], $data['jmlSubAtributPerKelas']); // menghitung nilai entrophy per sub Atribut
+        // foreach ($entrophygainTerting as $entrophygainTertingVal) {
+        //     foreach ($entrophygainTertingVal as $entrophygainTertingKey => $entrophygainTertingValues) {
+        // $data = $entrophygainTertingKey;
+        $data['jmlPerSubAtr'] = $this->jmlPerSubAtrWhere($subAtribut, $gainTertinggi, $entrophygainTerting); // mengambil jumlah seluru data per sub atribut
+        $data['jmlSubAtributPerKelas'] = $this->jmlSubAtributPerKelas($kelas, $subAtribut, $entrophygainTerting, $gainTertinggi);
+        $data['entrophy'] = $this->entrophy('step2', $data['jmlPerSubAtr'], $data['jmlSubAtributPerKelas']); // menghitung nilai entrophy per sub Atribut
 
-                // $data['gain'] = $this->gain($jmlTotal, $entrophyTotal, $data['jmlPerSubAtr'], $data['entrophy']);
-            }
-        }
+        // $data['gain'] = $this->gain($jmlTotal, $entrophyTotal, $data['jmlPerSubAtr'], $data['entrophy']);
+        //     }
+        // }
 
         // step2
 
