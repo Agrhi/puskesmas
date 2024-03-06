@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2024 at 01:07 PM
+-- Generation Time: Mar 06, 2024 at 02:23 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -182,7 +182,7 @@ CREATE TABLE `pasien` (
 --
 
 INSERT INTO `pasien` (`noRegist`, `nik`, `nama`, `alamat`, `jk`, `nohp`) VALUES
-('2306199800', '723498020020001', 'Agrh', 'Rumah', '1', '082248038346');
+('2306199800', '7234980200200011', 'Efendi', 'Sumber Agung', '1', '082248038346');
 
 -- --------------------------------------------------------
 
@@ -232,11 +232,9 @@ INSERT INTO `penyakit` (`kode`, `kelompok`) VALUES
 CREATE TABLE `rekamedis` (
   `idRekamedis` char(36) NOT NULL,
   `noRegist` varchar(10) DEFAULT NULL,
-  `poli` varchar(50) DEFAULT NULL,
+  `umur` varchar(50) NOT NULL,
+  `poli` varchar(100) DEFAULT NULL,
   `keluhan` text DEFAULT NULL,
-  `tensi` varchar(10) DEFAULT NULL,
-  `bb` decimal(5,2) DEFAULT NULL,
-  `tb` decimal(5,2) DEFAULT NULL,
   `diagnosa` text DEFAULT NULL,
   `tgl` date DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
@@ -247,11 +245,11 @@ CREATE TABLE `rekamedis` (
 -- Dumping data for table `rekamedis`
 --
 
-INSERT INTO `rekamedis` (`idRekamedis`, `noRegist`, `poli`, `keluhan`, `tensi`, `bb`, `tb`, `diagnosa`, `tgl`, `keterangan`, `status`) VALUES
-('20bd461b-842f-11ee-a2cc-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-16', NULL, '1'),
-('5c5d0dd5-81e9-11ee-ac11-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-13', NULL, '2'),
-('6a5e18d0-82b2-11ee-a2cc-c01850377eb8', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-14', NULL, '1'),
-('c6f2ae57-9d59-11ee-89cd-c01850377e9b', '2306199800', NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-18', NULL, '1');
+INSERT INTO `rekamedis` (`idRekamedis`, `noRegist`, `umur`, `poli`, `keluhan`, `diagnosa`, `tgl`, `keterangan`, `status`) VALUES
+('20bd461b-842f-11ee-a2cc-c01850377eb8', '2306199800', 'Muda dan Dewasa', 'Poli Gigi', 'asdsa', 'C00-D99', '2023-11-16', 'asd', '2'),
+('6a5e18d0-82b2-11ee-a2cc-c01850377eb8', '2306199800', 'Muda dan Dewasa', 'Poli Umum', 'bkbkbjk', 'A00-B99', '2023-11-14', 'cgh', '2'),
+('983db35d-db02-11ee-9a99-c01850377e9b', '2306199800', '', 'Poli KIA', NULL, NULL, '2024-03-05', NULL, '1'),
+('c6f2ae57-9d59-11ee-89cd-c01850377e9b', '2306199800', 'Bayi dan Anak-anak', 'Poli Gizi', 'asdasd', 'E00-E90', '2023-12-18', 'asd', '2');
 
 -- --------------------------------------------------------
 
@@ -332,7 +330,7 @@ ALTER TABLE `data_latih`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
