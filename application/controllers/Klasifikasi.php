@@ -9,6 +9,7 @@ class Klasifikasi extends CI_Controller
         $this->load->library('DataInput');
         $this->load->library('C45');
         $this->load->model('Models_C45');
+        $this->load->model('Models_rekamedis');
         cek_login();
     }
 
@@ -56,6 +57,13 @@ class Klasifikasi extends CI_Controller
         $umur = $this->input->post('umur', true);
 
         $data = $this->initData()->classify(["alamat" => "$alamat", "jk" => $jk, "umur" => "$umur"]);
+        echo json_encode($data);
+    }
+
+    public function getDataRekamedisPasien()
+    {
+        $nik = $this->input->post('nik');
+        $data = $this->Models_rekamedis->getData($nik)->row_array();
         echo json_encode($data);
     }
 }
