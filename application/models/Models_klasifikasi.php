@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Models_klasifikasi2 extends CI_Model
+class Models_klasifikasi extends CI_Model
 {
     public function getDataLatih($alamat, $jk, $umur, $all)
     {
@@ -196,8 +196,7 @@ class Models_klasifikasi2 extends CI_Model
     }
 
     // mengambil data subAtribut berdasarkan data atribut dan juga mengambil data Kelas
-    public function getSubAtribut($colum)
-    {
+    public function getSubAtribut($colum){
         $this->db->select($colum);
         $this->db->group_by($colum);
         return $this->db->get('data_latih')->result_array();
@@ -210,28 +209,27 @@ class Models_klasifikasi2 extends CI_Model
     }
 
     // count data berdasarkan key dan value
-    public function countAtributlow($colum, $where)
-    {
+    public function countAtributlow($colum, $where){
         $this->db->where($colum, $where);
         return $this->db->get('data_latih')->num_rows();
     }
-
+    
     // count data berdasarkan key dan value
-    public function countAtribut($colum, $where, $columAtr = '', $whereAtr = '', $columAtrWhere = '', $whereAtrWhere = '')
-    {
+    public function countAtribut($colum, $where, $columAtr = '', $whereAtr = '', $columAtrWhere = '', $whereAtrWhere = ''){
         $this->db->where($colum, $where);
-        if ($whereAtr != '') {
+        if ($whereAtr != ''){
             $this->db->where($columAtr, $whereAtr);
         }
-        if ($columAtrWhere != '') {
+        if ($columAtrWhere != ''){
             $this->db->where($columAtrWhere, $whereAtrWhere);
         }
         return $this->db->get('data_latih')->num_rows();
     }
 
-    public function getDataWhereAtr($whereAtrKey, $whereAtrVal)
-    {
+    public function getDataWhereAtr($whereAtrKey, $whereAtrVal) {
         $this->db->where($whereAtrKey, $whereAtrVal);
         return $this->db->get('data_latih')->result_array();
     }
+
+
 }
