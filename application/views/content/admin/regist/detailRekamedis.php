@@ -49,10 +49,6 @@
                     <div class="col">: <?= $data['kelompok']; ?></div>
                 </div>
                 <div class="row">
-                    <div class="col">Kode Diagnosa</div>
-                    <div class="col">: <?= $data['kode']; ?></div>
-                </div>
-                <div class="row">
                     <div class="col">Keterangan</div>
                     <div class="col">: <?= $data['keterangan']; ?></div>
                 </div>
