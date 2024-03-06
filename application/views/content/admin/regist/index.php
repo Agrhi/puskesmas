@@ -1,36 +1,56 @@
 <section class="section">
     <div class="card">
-        <div class="card-header">
-            <h3><?= $title; ?></h3>
-        </div>
         <div class="card-body">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link <?= ($active === "Registrasi") ? 'active' : '' ?>" aria-current="page" href="<?= base_url('registrasi/index/regist') ?>">Registrasi</a>
+                    <a class="nav-link active" href="#registrasi" onclick="toggleTab('registrasi')">Registrasi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= ($active === "Penapisan") ? 'active' : '' ?>" href="<?= base_url('registrasi/index/penapisan') ?>">Penapisan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= ($active === "Rekamedis") ? 'active' : '' ?>" href="<?= base_url('registrasi/index/rekamedis') ?>">Rekamedis</a>
+                    <a class="nav-link" href="#rekamedis" onclick="toggleTab('rekamedis')">Rekamedis</a>
                 </li>
             </ul>
-            <div class="mt-3">
-                <h5>Cari Data Berdasarkan Nomor Registrasi atau NIK Pasien</h5>
-                <form action="<?= base_url('registrasi/getDataPasien/') ?>" method="POST">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="noRegist" name="noRegist" aria-describedby="noRegist">
+            <div class="tab-content mt-3">
+                <div class="tab-pane active" id="registrasi">
+                    <h5>Cari Data Pasien</h5>
+                    <form action="<?= base_url('registrasi/getDataPasien/') ?>" method="POST">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="noRegist" name="noRegist" aria-describedby="noRegist" placeholder="Nomor Registrasi atau NIK">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
                         </div>
-                        <div class="col-md-1">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="rekamedis">
+                    <h5>Cari Data Rekamedis Pasien</h5>
+                    <form action="<?= base_url('registrasi/getDataRekamedisPasien') ?>" method="POST">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="noRegist" name="noRegist" aria-describedby="noRegist" placeholder="Nomor Registrasi atau NIK">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
 </section>
+<script>
+    function toggleTab(tabId) {
+        document.querySelector('.nav-link.active').classList.remove('active');
+        document.querySelector('.tab-pane.active').classList.remove('active');
+
+        document.querySelector(`a[href="#${tabId}"]`).classList.add('active');
+        document.querySelector(`#${tabId}`).classList.add('active');
+    }
+</script>

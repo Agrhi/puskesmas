@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="biodata">
-                <h6 class="mt-3">Data <?= $title; ?></h6>
+                <a href="<?= base_url('registrasi') ?>" class="btn bg-success text-white btn-sm">Kembali</a>
                 <h6>Biodata Pasien</h6>
                 <div class="row">
                     <div class="col">Nomor Registrasi Pasien</div>
@@ -33,7 +33,7 @@
                     <div class="col">: <?= $pasien->nohp; ?></div>
                 </div>
                 <div style="text-align: right;">
-                    <a href="<?= base_url('registrasi/registHariIni/' . $pasien->noRegist) ?>" class="btn bg-success text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Registrasi">Registrasi</a>
+                    <a onclick="registrasi()" class="btn bg-success text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Registrasi">Registrasi</a>
                 </div>
             </div>
             <hr>
@@ -48,7 +48,6 @@
                             <th>Poli</th>
                             <th>Tanggal</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,19 +65,8 @@
                                     <?php if ($value['status'] == '1') {
                                         echo 'Registed';
                                     } else if ($value['status'] == '2') {
-                                        echo 'Penapisan';
-                                    } else if ($value['status'] == '3') {
-                                        echo 'Rekemedis Done';
+                                        echo 'Selesai';
                                     } ?>
-                                </td>
-                                <td>
-                                    <?php if ($value['status'] == '1') { ?>
-                                        <a href="<?= base_url('registrasi/loadViewUpdate/penapisan/' . $value['idRekamedis']) ?>" class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Penapisan"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <?php } else if ($value['status'] == '2') { ?>
-                                        <a href="<?= base_url('registrasi/loadViewUpdate/rekamedis/' . $value['idRekamedis']) ?>" class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Rekemedis"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <?php } else if ($value['status'] == '3') { ?>
-                                        <div data-bs-toggle="tooltip" data-bs-placement="top" title="Rekemedis Selesai"><i class="fa fa-check-circle" aria-hidden="true"></i></div>                                        
-                                    <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -89,3 +77,42 @@
     </div>
 
 </section>
+
+<!-- Modal Data -->
+<div class="modal fade" id="updatePoliPasien" tabindex="-1" role="dialog" aria-labelledby="updatePoliPasienID" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatePoliPasienID">Update Poli</h5>
+            </div>
+            <div class="modal-body">
+                <form action="<?= base_url('registrasi/registHariIni') ?>" method="POST">
+                    <input type="hidden" name="noreg" value="<?= $pasien->noRegist ?>">
+                    <div class="row g-2">
+                        <div class="col-sm-12">
+                            <label for="poli">Poli</label>
+                            <select name="poli" id="poli" class="form-control">
+                                <option value="">-- Pilih Poli Tujuan --</option>
+                                <option value="Poli Umum">Poli Umum</option>
+                                <option value="Poli Gigi">Poli Gigi</option>
+                                <option value="Poli KIA">Poli KIA</option>
+                                <option value="Poli Gizi">Poli Gizi</option>
+                            </select>
+                            <?= form_error('poli', '<div id="poli" class="form-text text-danger text-left">', '</div>'); ?>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn bg-gradient-primary">Save</button>
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function registrasi() {
+        $('#updatePoliPasien').modal('show');
+    }
+</script>
