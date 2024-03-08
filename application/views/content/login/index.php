@@ -19,12 +19,12 @@
                             <input class="form-control" placeholder="Password" id="pass" name="password" type="password">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <select class="form-select" aria-label="Default select example">
                             <option value="">Pilih Akses</option>
                             <option value="1">Dokter</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-light">Sign in</button>
                     </div>
