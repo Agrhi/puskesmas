@@ -36,14 +36,14 @@
       <li class="nav-item mt-3">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Data Master</h6>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link <?= ($title === "Data Pasien") ? 'active' : '' ?>" href="<?= base_url('pasien') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-single-02 text-success text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Data Pasien</span>
         </a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link <?= ($title === "Rekamedis") ? 'active' : '' ?>" href="<?= base_url('rekamedis') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -51,7 +51,7 @@
           </div>
           <span class="nav-link-text ms-1">Rekamedis</span>
         </a>
-      </li> 
+      </li>
       <li class="nav-item">
         <a class="nav-link <?= ($title === "Data Diagnosa") ? 'active' : '' ?>" href="<?= base_url('diagnosa') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -61,11 +61,11 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?= ($title === "Data Penyakit") ? 'active' : '' ?>" href="<?= base_url('penyakit') ?>">
+        <a class="nav-link <?= ($title === "ICD-10") ? 'active' : '' ?>" href="<?= base_url('ICD_10') ?>">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
             <i class="ni ni-atom text-success text-sm opacity-10"></i>
           </div>
-          <span class="nav-link-text ms-1">Data Penyakit</span>
+          <span class="nav-link-text ms-1">ICD-10</span>
         </a>
       </li>
       <li class="nav-item">
@@ -75,7 +75,7 @@
           </div>
           <span class="nav-link-text ms-1">Data Latih</span>
         </a>
-      </li>   
+      </li>
       <?php if ($this->session->userdata('level') == 1) { ?>
         <li class="nav-item">
           <a class="nav-link <?= ($title === "Management User") ? 'active' : '' ?>" href="<?= base_url('management_user') ?>">

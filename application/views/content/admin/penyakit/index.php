@@ -8,11 +8,11 @@
                             <div>
                                 Data <?= $title; ?>
                             </div>
-                            <div style="text-align: right;">
+                            <!-- <div style="text-align: right;">
                                 <a href="<?= base_url('mhs/ganti') ?>" class="btn bg-success text-white btn-sm" data-bs-toggle="modal" data-bs-target="#addPenyakit"><i class="fa fa-plus" aria-hidden="true"></i></a>
                                 <a href="<?= base_url('mhs/ganti') ?>" class="btn bg-secondary text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Import Data"><i class="fa fa-download" aria-hidden="true"></i></a>
                                 <a href="<?= base_url('mhs/ganti') ?>" class="btn bg-primary text-white btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Export Data"><i class="fa fa-upload" aria-hidden="true"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </caption>
                     <thead>
@@ -20,7 +20,7 @@
                             <td>No</td>
                             <td>Kode</td>
                             <td>Kelompok</td>
-                            <td>Action</td>
+                            <!-- <td>Action</td> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -31,12 +31,12 @@
                                 <td><?= $no++ ?></td>
                                 <td><?= $value['kode'] ?></td>
                                 <td><?= $value['kelompok'] ?></td>
-                                <td>
+                                <!-- <td>
                                     <button class="btn btn-success btn-sm" onclick="updateData('<?= $value['kode']; ?>', '<?= $value['kelompok']; ?>')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <a href="<?= base_url('penyakit/deleteData/') . $value['kode'] ?>" class="btn btn-danger btn-sm btn-act-trash" onclick="" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Data"><i class="fa fa-trash-o"></i></a>
-                                </td>
+                                </td> -->
                             </tr>
                         <?php } ?>
                     </tbody>

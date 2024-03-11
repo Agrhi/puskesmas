@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Penyakit extends CI_Controller
+class ICD_10 extends CI_Controller
 {
 
 	public function __construct()
@@ -15,7 +15,7 @@ class Penyakit extends CI_Controller
 	private function loadView($showModal = "index")
 	{
 		$data = [
-			'title' 		=> 'Data Penyakit',
+			'title' 		=> 'ICD-10',
 			'penyakit'		=> $this->Models_penyakit->getData()->result_array(),
 			'showModal' 	=> $showModal
 		];
@@ -64,7 +64,7 @@ class Penyakit extends CI_Controller
 				$this->session->set_flashdata('swetalert', '`Berhasil!`, `Penyakit berhasil ditambahkan`,`success`');
 			}
 
-			redirect('penyakit');
+			redirect('ICD_10');
 		}
 	}
 
@@ -98,11 +98,12 @@ class Penyakit extends CI_Controller
 				$this->session->set_flashdata('swetalert', '`Gagal!`, `Penyakit gagal diperbarui`, `error`');
 			}
 
-			redirect('penyakit');
+			redirect('ICD_10');
 		}
 	}
 
-	public function deleteData($kode) {
+	public function deleteData($kode)
+	{
 		// delete data in the database
 		$result = $this->Models_penyakit->deleteData($kode);
 
@@ -112,6 +113,6 @@ class Penyakit extends CI_Controller
 			$this->session->set_flashdata('swetalert', '`Berhasil!`, `Penyakit berhasil dihapus`, `success`');
 		}
 
-		redirect('penyakit');
+		redirect('ICD_10');
 	}
 }
