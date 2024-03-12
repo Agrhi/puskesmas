@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-sm-12">
                         <label for="diagnosa">Diagnosa</label>
-                        <select class="diagnosa" name="diagnosa" id="diagnosa" required>
+                        <select class="form-control" name="diagnosa" id="diagnosa" required>
                             <option value="">-- Pilih Diagnosa --</option>
                             <?php foreach ($penyakit as $p) { ?>
                                 <option value="<?= $p['kode'] ?>" <?php echo $rekamedis['diagnosa'] === $p['kode'] ? 'selected' : ''; ?>>

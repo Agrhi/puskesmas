@@ -12,6 +12,7 @@ class Registrasi extends CI_Controller
 		parent::__construct();
 		$this->load->model('Models_rekamedis');
 		$this->load->model('Models_pasien');
+		$this->load->model('Models_diagnosa');
 		cek_login();
 	}
 
@@ -19,6 +20,7 @@ class Registrasi extends CI_Controller
 	{
 		$data = [
 			'title' 		=> 'Registrasi',
+			'diagnosa'		=> $this->Models_diagnosa->getData()->result(),
 		];
 
 		if ($active == 'regist') {
@@ -163,5 +165,84 @@ class Registrasi extends CI_Controller
 		$this->load->view('layout/navbar');
 		$this->load->view('content/admin/regist/detailRekamedis', $data);
 		$this->load->view('layout/footer');
+	}
+
+	public function addRekamedisPasien()
+	{
+		$this->form_validation->set_rules('nik', 'NIK', 'required|trim|numeric|min_length[16]', [
+			'required' => 'NIK harus diisi!',
+			'numeric' => 'Hanya boleh angka',
+			'min_length' => 'NIK minimal 16 angka!',
+		]);
+		$this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
+			'required' => 'Nama harus diisi!',
+		]);
+		$this->form_validation->set_rules('umur', 'Umur', 'required|trim', [
+			'required' => 'Umur harus diisi!',
+		]);
+		$this->form_validation->set_rules('jk', 'Jenis kelamin', 'required|trim', [
+			'required' => 'Jenis kelamin harus diisi!',
+		]);
+		$this->form_validation->set_rules('nohp', 'No. Hp', 'required|trim|numeric|min_length[10]', [
+			'required' => 'No. Hp harus diisi!',
+			'numeric' => 'Hanya boleh angka',
+			'min_length' => 'No. Hp minimal 10 angka!',
+		]);
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
+			'required' => 'Alamat harus diisi!',
+		]);
+		$this->form_validation->set_rules('poli', 'Tujuan Poli', 'required|trim', [
+			'required' => 'Tujuan Poli harus diisi!',
+		]);
+		$this->form_validation->set_rules('keluhan', 'Keluhan', 'required|trim', [
+			'required' => 'Keluhan harus diisi!',
+		]);
+		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim', [
+			'required' => 'Keterangan harus diisi!',
+		]);
+		$this->form_validation->set_rules('diagnosa', 'Diagnosa', 'required|trim', [
+			'required' => 'Diagnosa harus diisi!',
+		]);
+		if ($this->form_validation->run() == false) {
+			$this->index();
+		} else {
+			$data 	= [
+				'noRegist' => $this->generateNoRegist(),
+				'nik'		=> htmlspecialchars($this->input->post('nik', true)),
+				'nama'		=> htmlspecialchars($this->input->post('nama'), true),
+				'umur'		=> $this->klasifikasiUmur($this->input->post('umur', true)),
+				'jk'		=> htmlspecialchars($this->input->post('jk'), true),
+				'nohp'		=> htmlspecialchars($this->input->post('nohp'), true),
+				'alamat'		=> htmlspecialchars($this->input->post('alamat'), true),
+				'poli'		=> htmlspecialchars($this->input->post('poli'), true),
+				'keluhan'		=> htmlspecialchars($this->input->post('keluhan'), true),
+				'keterangan'		=> htmlspecialchars($this->input->post('keterangan'), true),
+				'diagnosa'		=> htmlspecialchars($this->input->post('diagnosa'), true),
+			];
+
+			$result = $this->Models_rekamedis->addRekamedisPasien($data);
+
+			if ($result) {
+				$this->session->set_flashdata('swetalert', '`Good job!`, `Data Berhasil Di Simpan !`, `success`');
+			} else {
+				$this->session->set_flashdata('swetalert', '`Upsss!`, `Data Gagal Di Simpan !`, `error`');
+			}
+			redirect('Registrasi');
+		}
+	}
+
+	private function generateNoRegist()
+	{
+		$prefix = 'REG';
+		$random_number = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+
+		$noRegist = $prefix . $random_number;
+
+		while (!$this->Models_pasien->isNoRegistUnique($noRegist)) {
+			$random_number = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+			$noRegist = $prefix . $random_number;
+		}
+
+		return $noRegist;
 	}
 }
