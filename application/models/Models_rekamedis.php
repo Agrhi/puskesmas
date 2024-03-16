@@ -80,7 +80,7 @@ class Models_rekamedis extends CI_Model
 		$dataRekamedis = [
 			'noRegist' => $data['noRegist'],
 			'umur' => $data['umur'],
-			'poli' => $data['poli'],
+			'layanan' => $data['layanan'],
 			'keluhan' => $data['keluhan'],
 			'keterangan' => $data['keterangan'],
 			'diagnosa' => $data['diagnosa'],
