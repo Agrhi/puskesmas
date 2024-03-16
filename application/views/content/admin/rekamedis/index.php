@@ -16,7 +16,7 @@
                             <td>Nomor Regist</td>
                             <td>NIK</td>
                             <td>Nama Pasien</td>
-                            <td>Poli</td>
+                            <td>Layanan</td>
                             <td>Tanggal</td>
                         </tr>
                     </thead>
@@ -29,7 +29,7 @@
                                 <td><?= $value['noRegist'] ?></td>
                                 <td><?= $value['nik'] ?></td>
                                 <td><?= $value['nama'] ?></td>
-                                <td><?= $value['poli'] ?></td>
+                                <td><?= $value['layanan'] ?></td>
                                 <td><?= $value['tgl'] ?></td>
                             </tr>
                         <?php } ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2024 at 02:23 AM
+-- Generation Time: Mar 16, 2024 at 06:06 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -182,7 +182,8 @@ CREATE TABLE `pasien` (
 --
 
 INSERT INTO `pasien` (`noRegist`, `nik`, `nama`, `alamat`, `jk`, `nohp`) VALUES
-('2306199800', '7234980200200011', 'Efendi', 'Sumber Agung', '1', '082248038346');
+('2306199800', '7234980200200011', 'Efendi', 'Sumber Agung', '1', '082248038346'),
+('REG968290', '7234980200200011', 'MOH. NOVAL', 'Ogotion', '1', '082271069166');
 
 -- --------------------------------------------------------
 
@@ -233,7 +234,7 @@ CREATE TABLE `rekamedis` (
   `idRekamedis` char(36) NOT NULL,
   `noRegist` varchar(10) DEFAULT NULL,
   `umur` varchar(50) NOT NULL,
-  `poli` varchar(100) DEFAULT NULL,
+  `layanan` varchar(100) DEFAULT NULL,
   `keluhan` text DEFAULT NULL,
   `diagnosa` text DEFAULT NULL,
   `tgl` date DEFAULT NULL,
@@ -245,11 +246,13 @@ CREATE TABLE `rekamedis` (
 -- Dumping data for table `rekamedis`
 --
 
-INSERT INTO `rekamedis` (`idRekamedis`, `noRegist`, `umur`, `poli`, `keluhan`, `diagnosa`, `tgl`, `keterangan`, `status`) VALUES
-('20bd461b-842f-11ee-a2cc-c01850377eb8', '2306199800', 'Muda dan Dewasa', 'Poli Gigi', 'asdsa', 'C00-D99', '2023-11-16', 'asd', '2'),
+INSERT INTO `rekamedis` (`idRekamedis`, `noRegist`, `umur`, `layanan`, `keluhan`, `diagnosa`, `tgl`, `keterangan`, `status`) VALUES
+('20bd461b-842f-11ee-a2cc-c01850377eb8', '2306199800', 'Muda dan Dewasa', 'Poli Gigi', 'asdsa', 'C00-D99', '2023-11-16', 'asd', '1'),
 ('6a5e18d0-82b2-11ee-a2cc-c01850377eb8', '2306199800', 'Muda dan Dewasa', 'Poli Umum', 'bkbkbjk', 'A00-B99', '2023-11-14', 'cgh', '2'),
-('983db35d-db02-11ee-9a99-c01850377e9b', '2306199800', '', 'Poli KIA', NULL, NULL, '2024-03-05', NULL, '1'),
-('c6f2ae57-9d59-11ee-89cd-c01850377e9b', '2306199800', 'Bayi dan Anak-anak', 'Poli Gizi', 'asdasd', 'E00-E90', '2023-12-18', 'asd', '2');
+('983db35d-db02-11ee-9a99-c01850377e9b', '2306199800', 'Tua', 'Poli KIA', 'asdas', 'K00-K98', '2024-03-05', 'asd', '2'),
+('c6f2ae57-9d59-11ee-89cd-c01850377e9b', '2306199800', 'Bayi dan Anak-anak', 'Poli Gizi', 'asdasd', 'E00-E90', '2023-12-18', 'asd', '2'),
+('c8f40e3c-dc4a-11ee-afe2-c01850377e9b', '2306199800', 'Muda dan Dewasa', 'Poli Gigi', 'asdfgh', 'A00-B99', '2024-03-07', 'sdfghj', '2'),
+('ed46178d-dfba-11ee-9869-c01850377e9b', 'REG968290', 'Muda dan Dewasa', 'Poli Umum', 'Keluhan', 'A00-B99', '2024-03-11', 'Keterangan', '2');
 
 -- --------------------------------------------------------
 

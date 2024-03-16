@@ -98,15 +98,13 @@
                                 <?= form_error('alamat', '<div id="alamat" class="form-text text-danger text-left">', '</div>'); ?>
                             </div>
                             <div class="col-sm-5">
-                                <label for="poli">Tujuan Poli</label>
-                                <select name="poli" id="poli" class="form-control">
-                                    <option value="">-- Pilih Poli Tujuan --</option>
-                                    <option value="Poli Umum" <?= set_select('poli', 'Poli Umum') ?>>Poli Umum</option>
-                                    <option value="Poli Gigi" <?= set_select('poli', 'Poli Gigi') ?>>Poli Gigi</option>
-                                    <option value="Poli KIA" <?= set_select('poli', 'Poli KIA') ?>>Poli KIA</option>
-                                    <option value="Poli Gizi" <?= set_select('poli', 'Poli Gizi') ?>>Poli Gizi</option>
+                                <label for="layanan">Layanan</label>
+                                <select name="layanan" id="layanan" class="form-control">
+                                    <option value="">-- Pilih Layanan --</option>
+                                    <option value="Rawat Inap" <?= set_select('layanan', 'Rawat Inap') ?>>Rawat Inap</option>
+                                    <option value="Rawat Jalan" <?= set_select('layanan', 'Rawat Jalan') ?>>Rawat Jalan</option>
                                 </select>
-                                <?= form_error('poli', '<div id="poli" class="form-text text-danger text-left">', '</div>'); ?>
+                                <?= form_error('layanan', '<div id="layanan" class="form-text text-danger text-left">', '</div>'); ?>
                             </div>
                             <div class="col-sm-6">
                                 <label for="keluhan">Keluhan</label>

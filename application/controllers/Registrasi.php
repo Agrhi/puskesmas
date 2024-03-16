@@ -82,7 +82,7 @@ class Registrasi extends CI_Controller
 	public function registHariIni()
 	{
 		$noreg = $this->input->post('noreg', true);
-		$poli = $this->input->post('poli', true);
+		$layanan = $this->input->post('layanan', true);
 
 		$cekRekamediHariIni = $this->Models_rekamedis->cekRekamedisHariIni($noreg)->row();
 		if ($cekRekamediHariIni) {
@@ -92,7 +92,7 @@ class Registrasi extends CI_Controller
 				'noRegist' => $noreg,
 				'tgl' => date('Y-m-d'),
 				'status' => '1',
-				'poli' => $poli,
+				'layanan' => $layanan,
 			];
 			$respon = $this->Models_rekamedis->addDataRekamedis($dataRegist);
 			if ($respon) {
@@ -191,8 +191,8 @@ class Registrasi extends CI_Controller
 		$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
 			'required' => 'Alamat harus diisi!',
 		]);
-		$this->form_validation->set_rules('poli', 'Tujuan Poli', 'required|trim', [
-			'required' => 'Tujuan Poli harus diisi!',
+		$this->form_validation->set_rules('layanan', 'Tujuan layanan', 'required|trim', [
+			'required' => 'Tujuan layanan harus diisi!',
 		]);
 		$this->form_validation->set_rules('keluhan', 'Keluhan', 'required|trim', [
 			'required' => 'Keluhan harus diisi!',
@@ -214,7 +214,7 @@ class Registrasi extends CI_Controller
 				'jk'		=> htmlspecialchars($this->input->post('jk'), true),
 				'nohp'		=> htmlspecialchars($this->input->post('nohp'), true),
 				'alamat'		=> htmlspecialchars($this->input->post('alamat'), true),
-				'poli'		=> htmlspecialchars($this->input->post('poli'), true),
+				'layanan'		=> htmlspecialchars($this->input->post('layanan'), true),
 				'keluhan'		=> htmlspecialchars($this->input->post('keluhan'), true),
 				'keterangan'		=> htmlspecialchars($this->input->post('keterangan'), true),
 				'diagnosa'		=> htmlspecialchars($this->input->post('diagnosa'), true),
