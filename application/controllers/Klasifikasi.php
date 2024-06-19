@@ -9,6 +9,7 @@ class Klasifikasi extends CI_Controller
         $this->load->library('DataInput');
         $this->load->library('C45');
         $this->load->model('Models_C45');
+        $this->load->model('Models_penyakit');
         $this->load->model('Models_rekamedis');
         cek_login();
     }
@@ -57,7 +58,13 @@ class Klasifikasi extends CI_Controller
         $umur = $this->input->post('umur', true);
 
         $data = $this->initData()->classify(["alamat" => "$alamat", "jk" => $jk, "umur" => "$umur"]);
-        echo json_encode($data);
+        if ($data == 'unclassified') {
+            $respon = 'Kategori yang Anda Pilih Tidak terdapat dalam pohon keputusan';
+        } else {
+            $hasil = $this->Models_penyakit->getData(str_replace(' ', '', $data))->row();
+            $respon = $hasil->kode .' - '. $hasil->kelompok;
+        }
+        echo json_encode($respon);
     }
 
     public function getDataRekamedisPasien()

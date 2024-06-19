@@ -14,7 +14,7 @@ class Models_C45 extends CI_Model
         return $this->db->query("SELECT rekamedis.noRegist, pasien.alamat 
                             FROM rekamedis 
                             LEFT JOIN pasien ON pasien.noRegist = rekamedis.noRegist 
-                            GROUP BY rekamedis.noRegist
+                            GROUP BY pasien.alamat
                             ")->result_array();
     }
 }

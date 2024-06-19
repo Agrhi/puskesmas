@@ -183,10 +183,9 @@ class Registrasi extends CI_Controller
 		$this->form_validation->set_rules('jk', 'Jenis kelamin', 'required|trim', [
 			'required' => 'Jenis kelamin harus diisi!',
 		]);
-		$this->form_validation->set_rules('nohp', 'No. Hp', 'required|trim|numeric|min_length[10]', [
-			'required' => 'No. Hp harus diisi!',
+		$this->form_validation->set_rules('nohp', 'No. BPJS', 'required|trim|numeric', [
+			'required' => 'No. BPJS harus diisi!',
 			'numeric' => 'Hanya boleh angka',
-			'min_length' => 'No. Hp minimal 10 angka!',
 		]);
 		$this->form_validation->set_rules('alamat', 'Alamat', 'required|trim', [
 			'required' => 'Alamat harus diisi!',
@@ -194,12 +193,12 @@ class Registrasi extends CI_Controller
 		$this->form_validation->set_rules('layanan', 'Tujuan layanan', 'required|trim', [
 			'required' => 'Tujuan layanan harus diisi!',
 		]);
-		$this->form_validation->set_rules('keluhan', 'Keluhan', 'required|trim', [
-			'required' => 'Keluhan harus diisi!',
-		]);
-		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim', [
-			'required' => 'Keterangan harus diisi!',
-		]);
+		// $this->form_validation->set_rules('keluhan', 'Keluhan', 'required|trim', [
+		// 	'required' => 'Keluhan harus diisi!',
+		// ]);
+		// $this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim', [
+		// 	'required' => 'Keterangan harus diisi!',
+		// ]);
 		$this->form_validation->set_rules('diagnosa', 'Diagnosa', 'required|trim', [
 			'required' => 'Diagnosa harus diisi!',
 		]);
@@ -214,8 +213,8 @@ class Registrasi extends CI_Controller
 				'jk'		=> htmlspecialchars($this->input->post('jk'), true),
 				'nohp'		=> htmlspecialchars($this->input->post('nohp'), true),
 				'alamat'		=> htmlspecialchars($this->input->post('alamat'), true),
-				'layanan'		=> htmlspecialchars($this->input->post('layanan'), true),
-				'keluhan'		=> htmlspecialchars($this->input->post('keluhan'), true),
+				// 'layanan'		=> htmlspecialchars($this->input->post('layanan'), true),
+				// 'keluhan'		=> htmlspecialchars($this->input->post('keluhan'), true),
 				'keterangan'		=> htmlspecialchars($this->input->post('keterangan'), true),
 				'diagnosa'		=> htmlspecialchars($this->input->post('diagnosa'), true),
 			];

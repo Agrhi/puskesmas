@@ -69,7 +69,7 @@
                                 <?= form_error('jk', '<div id="jk" class="form-text text-danger text-left">', '</div>'); ?>
                             </div>
                             <div class="col-sm-4">
-                                <label for="nohp">No HP</label>
+                                <label for="nohp">No BPJS</label>
                                 <input type="text" class="form-control" name="nohp" id="nohp" value="<?= set_value('nohp') ?>">
                                 <?= form_error('nohp', '<div id="nohp" class="form-text text-danger text-left">', '</div>'); ?>
                             </div>
@@ -77,23 +77,24 @@
                                 <label for="alamat">Alamat</label>
                                 <select class="form-control" name="alamat">
                                     <option value="">-- Pilih Alamat --</option>
-                                    <option value="Bugis" <?= set_select('alamat', 'Bugis') ?>>Bugis</option>
-                                    <option value="Bugis Utara" <?= set_select('alamat', 'Bugis Utara') ?>>Bugis Utara</option>
-                                    <option value="Gurinda" <?= set_select('alamat', 'Gurinda') ?>>Gurinda</option>
-                                    <option value="Kayu Agung" <?= set_select('alamat', 'Kayu Agung') ?>>Kayu Agung</option>
-                                    <option value="Kotaraya Barat" <?= set_select('alamat', 'Kotaraya Barat') ?>>Kotaraya Barat</option>
-                                    <option value="Kotaraya Induk" <?= set_select('alamat', 'Kotaraya Induk') ?>>Kotaraya Induk</option>
-                                    <option value="Kotaraya Selatan" <?= set_select('alamat', 'Kotaraya Selatan') ?>>Kotaraya Selatan</option>
-                                    <option value="Kotaraya Tenggara" <?= set_select('alamat', 'Kotaraya Tenggara') ?>>Kotaraya Tenggara</option>
                                     <option value="Kotaraya Timur" <?= set_select('alamat', 'Kotaraya Timur') ?>>Kotaraya Timur</option>
+                                    <option value="Kotaraya Barat" <?= set_select('alamat', 'Kotaraya Barat') ?>>Kotaraya Barat</option>
+                                    <option value="Kotaraya Selatan" <?= set_select('alamat', 'Kotaraya Selatan') ?>>Kotaraya Selatan</option>
+                                    <option value="Kotaraya Induk" <?= set_select('alamat', 'Kotaraya Induk') ?>>Kotaraya Induk</option>
+                                    <option value="Kotaraya Tenggara" <?= set_select('alamat', 'Kotaraya Tenggara') ?>>Kotaraya Tenggara</option>
+                                    <option value="Kayu Agung" <?= set_select('alamat', 'Kayu Agung') ?>>Kayu Agung</option>
+                                    <option value="Sumber Agung" <?= set_select('alamat', 'Sumber Agung') ?>>Sumber Agung</option>
                                     <option value="Maranti" <?= set_select('alamat', 'Maranti') ?>>Maranti</option>
-                                    <option value="Mensung" <?= set_select('alamat', 'Mensung') ?>>Mensung</option>
-                                    <option value="Mepanga" <?= set_select('alamat', 'Mepanga') ?>>Mepanga</option>
-                                    <option value="Moubang" <?= set_select('alamat', 'Moubang') ?>>Moubang</option>
-                                    <option value="Ogobayas" <?= set_select('alamat', 'Ogobayas') ?>>Ogobayas</option>
                                     <option value="Ogomolos" <?= set_select('alamat', 'Ogomolos') ?>>Ogomolos</option>
                                     <option value="Ogotion" <?= set_select('alamat', 'Ogotion') ?>>Ogotion</option>
-                                    <option value="Sumber Agung" <?= set_select('alamat', 'Sumber Agung') ?>>Sumber Agung</option>
+                                    <option value="Ogobayas" <?= set_select('alamat', 'Ogobayas') ?>>Ogobayas</option>
+                                    <option value="Moubang" <?= set_select('alamat', 'Moubang') ?>>Moubang</option>
+                                    <option value="Mensung" <?= set_select('alamat', 'Mensung') ?>>Mensung</option>
+                                    <option value="Mepanga" <?= set_select('alamat', 'Mepanga') ?>>Mepanga</option>
+                                    <option value="Bugis Utara" <?= set_select('alamat', 'Bugis Utara') ?>>Bugis Utara</option>
+                                    <option value="Bugis" <?= set_select('alamat', 'Bugis') ?>>Bugis</option>
+                                    <option value="Malalan" <?= set_select('alamat', 'Malalan') ?>>Malalan</option>
+                                    <option value="Gurinda" <?= set_select('alamat', 'Gurinda') ?>>Gurinda</option>
                                 </select>
                                 <?= form_error('alamat', '<div id="alamat" class="form-text text-danger text-left">', '</div>'); ?>
                             </div>
@@ -106,7 +107,7 @@
                                 </select>
                                 <?= form_error('layanan', '<div id="layanan" class="form-text text-danger text-left">', '</div>'); ?>
                             </div>
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <label for="keluhan">Keluhan</label>
                                 <textarea type="text" class="form-control" rows="3" name="keluhan" id="keluhan" value="<?= set_value('keluhan') ?>"></textarea>
                                 <?= form_error('keluhan', '<div id="keluhan" class="form-text text-danger text-left">', '</div>'); ?>
@@ -115,7 +116,7 @@
                                 <label for="keterangan">Keterangan</label>
                                 <textarea type="text" class="form-control" name="keterangan" rows="3" id="keterangan" value="<?= set_value('keterangan') ?>"></textarea>
                                 <?= form_error('keterangan', '<div id="keterangan" class="form-text text-danger text-left">', '</div>'); ?>
-                            </div>
+                            </div> -->
                             <div class="col-sm-12">
                                 <label for="diagnosa">Diagnosa</label>
                                 <select class="form-control" name="diagnosa" id="diagnosa">
